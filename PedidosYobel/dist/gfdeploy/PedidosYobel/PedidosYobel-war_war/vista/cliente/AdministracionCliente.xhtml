@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Administración Cliente</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    </h:head>
+    <h:body>
+        <p:menubar>
+            <p:menuitem value="#{vista.Home}" outcome="/index.xhtml" icon="ui-icon-home"/>
+            <p:submenu label="Administración">
+                <p:menuitem value="Administración Cliente" outcome="/vista/cliente/AdministracionCliente.xhtml" />
+                <p:menuitem value="Administración Pedido" outcome="/vista/pedido/AdministracionPedido.xhtml" />
+            </p:submenu>
+        </p:menubar>
+
+        <p:growl id="growl" showDetail="true" />
+        <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+
+        <h:form id="Formulario">
+            <h:panelGroup id="display">
+
+                <p:panelGrid columns="2">
+
+
+                    <p:outputLabel value="DNI Cliente"/>
+                    <p:inputText value="#{clienteBean.cliente.dnicliente}" maxlength="10" >
+                        <p:keyFilter mask="num"/>
+                    </p:inputText>
+                    <p:outputLabel value="Nombre y Apellido"/>
+                    <p:inputText value="#{clienteBean.cliente.nombrecliente}"/>
+                </p:panelGrid>
+
+                <h:commandButton action="#{clienteBean.guardarClienteBN()}" value="Guardar"  />
+                <h:commandButton action="#{clienteBean.actualizarClienteporEntidadBN()}" value="Actualizar" />
+
+
+            </h:panelGroup>
+
+
+
+
+
+
+
+            <h1><h:outputText value="Listado de Clientes"/></h1>
+            <p:dataTable value="#{clienteBean.mostrarTodosClientesBN()}" var="atributos" scrollable="true">                    
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="DNI Cliente"/>
+                    </f:facet>
+                    <h:outputText value="#{atributos.dnicliente}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Cliente"/>
+                    </f:facet>
+                    <h:outputText value="#{atributos.nombrecliente}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Acciones"/>
+                    </f:facet>
+                    <h:commandButton action="#{clienteBean.cargarClientePorEntidadBN(atributos)}" value="Visualizar" />
+
+                    <h:commandButton action="#{clienteBean.eliminarCliente(atributos)}" value="Eliminar" />
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+
+
+
+
+
+
+    </h:body>
+
+
+
+
+
+
+
+</html>

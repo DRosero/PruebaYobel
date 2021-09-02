@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+
+
+    </h:head>
+    <h:body>
+        <p:menubar>
+            <p:menuitem value="#{vista.Home}" outcome="/index.xhtml" icon="ui-icon-home"/>
+            <p:submenu label="Administración">
+                <p:menuitem value="Administración Cliente" outcome="/vista/cliente/AdministracionCliente.xhtml" />
+                <p:menuitem value="Administración Pedido" outcome="/vista/pedido/AdministracionPedido.xhtml" />
+            </p:submenu>
+        </p:menubar>
+
+        <p:growl id="growl" showDetail="true" />
+        <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+
+        <h:form id="PedidoFormulario">
+            <h:panelGroup id="display">
+                <p:menuitem value="#{vista.Home}" outcome="index.xhtml" icon="ui-icon-home"/>
+
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Fecha de pedido"/>
+                    <p:calendar value="#{pedidoBean.pedido.fechapedido}" />
+                    <p:outputLabel value="Código Pedido"/>
+                    <p:inputText value="#{pedidoBean.pedido.codigopedido}" />
+                    <p:outputLabel value="Cliente"/>
+                    <p:selectOneMenu value="#{pedidoBean.cliente.idcliente}">
+                        <f:selectItem itemLabel="Seleccione Cliente" itemValue=""/>
+                        <f:selectItems value="#{pedidoBean.listaClienteCombobox()}" />
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <h:commandButton action="#{pedidoBean.guardarPedidoBN()}" value="Guardar"/>
+                <h:commandButton action="#{pedidoBean.actualizarPedidoporEntidadBN()}" value="Actualizar" />
+
+            </h:panelGroup>
+
+
+            <h1><h:outputText value="Listado de Pedidos"/></h1>
+            <p:dataTable value="#{pedidoBean.mostrarTodosPedidosBN()}" var="atributo">                    
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Código Pedido"/>
+                    </f:facet>
+                    <h:outputText value="#{atributo.codigopedido}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Fecha Pedido"/>
+                    </f:facet>
+                    <h:outputText value="#{atributo.fechapedido}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Cliente"/>
+                    </f:facet>
+                    <h:outputText value="#{atributo.idcliente.nombrecliente}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Acciones"/>
+                    </f:facet>
+                    <h:commandButton action="#{pedidoBean.cargarEntidadPorEntidadBN(atributo)}" value="Visualizar"/>
+                    <h:commandButton action="#{pedidoBean.eliminarPedidoBN(atributo)}" value="Eliminar"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+
+    </h:body>
+</html>
